@@ -10,8 +10,10 @@ class OBS { // OBS = Obstacle
         // public members
         OBS();
         OBS(std::vector<Triangle> faces);
-        bool collision(Node3D node);
-        size_t get_n_faces();
+        // bool collision(Node3D node);
+        // bool collision(vec3 point);
+        bool collision(vec3 origin, vec3 end);
+        // size_t get_n_faces();
     private:
         std::vector<Triangle> faces;
         size_t n_faces;

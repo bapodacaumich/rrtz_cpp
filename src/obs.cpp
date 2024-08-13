@@ -14,12 +14,28 @@ OBS::OBS(std::vector<Triangle> faces) {
     this->faces = faces;
     this->n_faces = faces.size();
 }
-size_t OBS::get_n_faces() {
-    return this->n_faces;
-}
-bool OBS::collision(Node3D node) {
-    for (size_t i; i < this->n_faces; i++) {
-        if (ray_int_triangle(node, this->faces[i])) { return true; }
+// size_t OBS::get_n_faces() {
+//     return this->n_faces;
+// }
+// bool OBS::collision(Node3D node) {
+//     for (size_t i; i < this->n_faces; i++) {
+//         if (ray_int_triangle(node, this->faces[i])) { return true; }
+//     }
+//     return false;
+// }
+// bool OBS::collision(vec3 point) {
+//     size_t num_collisions = 0;
+//     vec3 vec = vec3(1.0f, 0.0f, 0.0f);
+//     for (size_t i; i < this->n_faces; i++) {
+//         if (ray_int_triangle(point, vec, this->faces[i])) { num_collisions++; }
+//     }
+//     return num_collisions % 2 == 1;
+// }
+
+bool OBS::collision(vec3 origin, vec3 end) {
+    vec3 vec = end - origin;
+    for (size_t i = 0; i < this->n_faces; i++) {
+        if (ray_int_triangle(origin, vec, end, this->faces[i])) { return true; }
     }
     return false;
 }

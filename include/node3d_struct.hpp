@@ -4,6 +4,7 @@
 #include "plane_struct.hpp"
 #include "vec3_struct.hpp"
 
+#include <iostream>
 #include <vector>
 #include <limits>
 #include <stddef.h>
@@ -25,12 +26,41 @@ struct Node3D {
         parent_idx = -1;
         plane = Plane();
     }
+    Node3D(vec3 o, vec3 e, size_t i) {
+        origin = o;
+        end = e;
+        vector = e - o;
+        idx = i;
+        parent_idx = -1;
+        cost = std::numeric_limits<float>::infinity();
+        plane = Plane();
+    }
     Node3D(vec3 o, vec3 e, size_t i, size_t p) {
         origin = o;
         end = e;
         vector = e - o;
         idx = i;
         parent_idx = p;
+        cost = std::numeric_limits<float>::infinity();
+        plane = Plane();
+    }
+    Node3D(vec3 o, vec3 e, size_t i, size_t p, float c) {
+        origin = o;
+        end = e;
+        vector = e - o;
+        idx = i;
+        parent_idx = p;
+        cost = c;
+        plane = Plane();
+    }
+    Node3D(vec3 o, vec3 e, size_t i, size_t p, Plane pl) {
+        origin = o;
+        end = e;
+        vector = e - o;
+        idx = i;
+        parent_idx = p;
+        cost = std::numeric_limits<float>::infinity();
+        plane = pl;
     }
 };
 
