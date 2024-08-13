@@ -1,3 +1,4 @@
+#include "limit_struct.hpp"
 #include "node3d_struct.hpp"
 #include "obs.hpp"
 #include "rrtz.hpp"
