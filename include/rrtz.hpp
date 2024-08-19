@@ -14,7 +14,18 @@ class RRTZ {
     public:
         // public members
         RRTZ();
-        RRTZ(vec3 start, vec3 goal, std::vector<OBS> obs, Limit limits, size_t max_nodes, size_t min_iter=0, size_t max_iter=0);
+
+        RRTZ(
+            vec3 start,
+            vec3 goal,
+            std::vector<OBS> obs,
+            Limit limits,
+            size_t max_nodes,
+            size_t min_iter=0,
+            size_t max_iter=0,
+            bool debug=false
+            );
+
         bool run(std::vector<vec3>& path);
 
     private:
@@ -28,6 +39,9 @@ class RRTZ {
         std::vector<Node3D> tree_nodes;
         std::vector<OBS> obs;
         std::vector<float> costs;
+
+        // debug
+        bool debug;
 
         // best solution
         float best_cost;

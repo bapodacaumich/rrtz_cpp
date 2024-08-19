@@ -28,7 +28,8 @@ RRTZ::RRTZ(
     Limit limits,
     size_t max_nodes,
     size_t min_iter,
-    size_t max_iter
+    size_t max_iter,
+    bool debug
     ) {
 
     // save problem config
@@ -49,6 +50,9 @@ RRTZ::RRTZ(
     // initialize best solution
     this->best_cost = std::numeric_limits<float>::infinity();
     this->best_idx = -1;
+
+    // pass in debug setting
+    this->debug = debug;
 }
 
 bool RRTZ::run(std::vector<vec3>& path) {
@@ -58,7 +62,7 @@ bool RRTZ::run(std::vector<vec3>& path) {
         float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         float cost = std::numeric_limits<float>::infinity();
 
-        std::cout << "\rIteration=" << this->tree_nodes.size();
+        if (this->debug) {std::cout << "\rIteration=" << this->tree_nodes.size();}
 
         if (r < 0.5) { 
             // extend to goal
@@ -67,7 +71,7 @@ bool RRTZ::run(std::vector<vec3>& path) {
                 // success to goal --> save index of this leaf node
                 if (cost < this->best_cost) {
                     this->best_cost = cost;
-                    std::cout << " Improved Cost=" << this->best_cost << std::endl;
+                    if (this->debug) {std::cout << " Improved Cost=" << this->best_cost << std::endl;}
                     this->best_idx = this->tree_nodes.size() - 1;
                 }
             }
@@ -98,7 +102,7 @@ bool RRTZ::terminate() {
 void RRTZ::reconstruct_path(size_t parent_idx, std::vector<vec3>& path) {
     path.push_back(this->tree_nodes[parent_idx].end);
     while (parent_idx != 0) {
-        path.push_back(this->tree_nodes[parent_idx].origin);
+        path.insert(path.begin(),this->tree_nodes[parent_idx].origin);
         parent_idx = this->tree_nodes[parent_idx].parent_idx;
     }
 }
@@ -168,9 +172,10 @@ bool RRTZ::extend(Plane p, float& cost) {
 }
 
 void RRTZ::print_node(Node3D node) {
-    std::cout << " Node: (" << node.origin.x << " " << node.origin.y << " " << node.origin.z << ") end=(";
-    std::cout << node.end.x << " " << node.end.y << " " << node.end.z << ") ";
-    std::cout << " cost=" << node.cost << " idx=" << node.idx << " parent idx=" << node.parent_idx << std::endl;
+    std::cout << " origin=" << node.origin.to_string() << " end=" 
+    << node.end.to_string() << " vector=" << node.vector.to_string() 
+    << " cost=" << node.cost << " idx=" << node.idx << " parent idx="
+    << node.parent_idx << std::endl;
 }
 
 bool RRTZ::get_near_nodes(Plane plane, std::vector<Node3D*>& near_nodes, std::vector<vec3>& int_points) {

@@ -2,6 +2,7 @@
 #define UTILS_HPP
 
 #include "node3d_struct.hpp"
+#include "obs.hpp"
 #include "triangle_struct.hpp"
 #include "vec3_struct.hpp"
 
@@ -19,6 +20,8 @@ float heading_change(Node3D node, vec3 vector);
 bool loadCSV(const std::string& filename, std::vector<std::vector<float>>& data, int rowlen);
 void saveCSV(const std::string& filename, const std::vector<std::vector<float>>& data);
 void loadCube(std::vector<std::vector<std::vector<float>>>& data, float xs=-1, float xf=1);
+void convertFlatToTriangle(const std::vector<std::vector<float>>& flatData, std::vector<Triangle>& tris);
+void loadStationOBS(std::vector<OBS>& obsVec);
 void vecToTri(const std::vector<std::vector<std::vector<float>>>& data, std::vector<Triangle>& tris);
 
 #endif // UTILS_HPP

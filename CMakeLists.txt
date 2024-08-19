@@ -35,6 +35,7 @@ message(STATUS "Header Files: ${HEADER_FILES_HPP}")
 set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/obs.cpp
     ${CMAKE_SOURCE_DIR}/src/rrtz.cpp
+    ${CMAKE_SOURCE_DIR}/src/station.cpp
     ${CMAKE_SOURCE_DIR}/src/utils.cpp
 )
 

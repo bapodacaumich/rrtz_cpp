@@ -1,3 +1,5 @@
+#include "node3d_struct.hpp"
+#include "obs.hpp"
 #include "triangle_struct.hpp"
 #include "utils.hpp"
 #include "vec3_struct.hpp"
@@ -206,6 +208,37 @@ void loadCube(std::vector<std::vector<std::vector<float>>>& data, float xs, floa
         {{xf,-1, 1}, {xs,-1, 1}, {xf,-1,-1}},  {{xf,-1,-1},  {xs,-1,-1},  {xs,-1, 1}}, // right
         {{xf, 1,-1}, {xf,-1,-1}, {xf,-1, 1}},  {{xf, 1,-1},  {xf, 1, 1},  {xf,-1, 1}}  // back
     };
+}
+
+void convertFlatToTriangle(const std::vector<std::vector<float>>& flatData, std::vector<Triangle>& triangles) {
+    /* convert flat 2d object to triangles assuming each triangle is flattened into x1,y1,z1,x2,y2,z2,x3,y3,z3
+    */
+    for (size_t i = 0; i < flatData.size(); ++i) {
+        triangles.push_back(Triangle(
+            vec3(flatData[i][0], flatData[i][1], flatData[i][2]),
+            vec3(flatData[i][3], flatData[i][4], flatData[i][5]),
+            vec3(flatData[i][6], flatData[i][7], flatData[i][8])
+        ));
+    }
+}
+
+void loadStationOBS(std::vector<OBS>& obsVec) {
+    /*
+    * instantiate station into obstacle objects
+    * @param obsVec: std::vector<OBS>, output data
+    */
+    size_t num_obstacles = 15;
+    std::string model_dir = "../data/model_convex/";
+
+    for (size_t i=1; i < num_obstacles+1; ++i) {
+        std::string filename = model_dir + std::to_string(i) + ".csv";
+        std::vector<std::vector<float>> data;
+        loadCSV(filename, data, 3);
+        std::vector<Triangle> tris;
+        convertFlatToTriangle(data, tris);
+        OBS obs = OBS(tris);
+        obsVec.push_back(obs);
+    }
 }
 
 void vecToTri(const std::vector<std::vector<std::vector<float>>>& data, std::vector<Triangle>& tris) {

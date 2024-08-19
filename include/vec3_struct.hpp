@@ -2,6 +2,7 @@
 #define VEC3_STRUCT_HPP
 
 #include <math.h>
+#include <string>
 
 struct vec3 {
     float x, y, z;
@@ -14,6 +15,14 @@ struct vec3 {
         x = a;
         y = b;
         z = c;
+    }
+    void set(float a, float b, float c) {
+        x = a;
+        y = b;
+        z = c;
+    }
+    std::string to_string() {
+        return "(" + std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(z) + ")";
     }
     inline vec3 operator+(const vec3& v) const {
         return vec3(x + v.x, y + v.y, z + v.z);
